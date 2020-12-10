@@ -5,7 +5,14 @@ public class MinionGame {
 		double starterSelection;
 		String order = "";
 		boolean controlNorbert = false;
+		int positionNorbert = 0;
+		int minionsLeft = 0;
+		int minionsRight = 0;
+		int starter;
+		int choice = 0;
 
+
+		
 		while (controlNorbert == false) {
 			order = "";
 			for (int i = 0; i < 11; i++) {
@@ -16,6 +23,9 @@ public class MinionGame {
 					} else {
 						order += " O ";
 						controlNorbert = true;
+						positionNorbert = i + 1;
+						minionsLeft = positionNorbert - 1;
+						minionsRight = 11 - positionNorbert;
 					}
 				} else {
 					order += " M ";
@@ -23,14 +33,28 @@ public class MinionGame {
 			}
 		}
 		System.out.println(order);
+		System.out.println("Norbert steht an " + positionNorbert + ". Stelle.");
+		System.out.println("Es stehen " + (minionsRight) + " rechts.");
+		System.out.println("Es stehen " + (minionsLeft) + " links.");
 
-		/*
-		 * starterSelection=Math.random();if(starterSelection>=0.5)
-		 * 
-		 * { System.out.print("Computer beginnt"); }else {
-		 * System.out.print("Spieler beginnt"); }
-		 * neuer Kommentar
-		 */
+		starterSelection = Math.random();
+		if (starterSelection >= 0.5)
 
+		{
+			System.out.print("Computer beginnt");
+			starter = 0;
+			
+		} else {
+			System.out.print("Spieler beginnt");
+			starter = 1;
+		}
+
+		if (starter == 0)
+		{System.out.print("Computer beginnt");
+		
+		} else {
+			choice = StaticScanner.nextInt();
+			
+		}
 	}
 }
