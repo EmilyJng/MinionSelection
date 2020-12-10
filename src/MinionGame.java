@@ -29,6 +29,7 @@ public class MinionGame {
 		 * 
 		 * { System.out.print("Computer beginnt"); }else {
 		 * System.out.print("Spieler beginnt"); }
+		 * neuer Kommentar
 		 */
 
 	}
