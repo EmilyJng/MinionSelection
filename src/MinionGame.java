@@ -6,19 +6,22 @@ public class MinionGame {
 		String order = "";
 		boolean controlNorbert = false;
 
-		for (int i = 0; i < 11; i++) {
-			if (controlNorbert == false) {
-				double probability = Math.random();
-				if (probability <= 0.5) {
-					order += "M";
+		while (controlNorbert == false) {
+			for (int i = 0; i < 11; i++) {
+				if (controlNorbert == false) {
+					double probability = Math.random();
+					if (probability <= 0.5) {
+						order += "M";
+					} else {
+						order += "N";
+						controlNorbert = true;
+					}
 				} else {
-					order += "N";
-					controlNorbert = true;
+					order += "M";
 				}
-			} else {
-				order += "M";
 			}
 		}
+		System.out.println(order);
 
 		/*
 		 * starterSelection=Math.random();if(starterSelection>=0.5)
