@@ -62,62 +62,69 @@ public class MinionGame {
 			/**
 			 * Zug Mensch
 			 */
-			while (choiceValid == false) {
-				choice = 0;
-				System.out.println("Von welcher Seite willst du ziehen?(Eingabe 'l' für Links, Eingabe 'r' für Rechts");
-				choiceTemp = StaticScanner.nextString().toLowerCase();
-				while (true) {
+			while (order.length() > 0) {
 
-					if (choiceTemp.equals("r") || choiceTemp.equals("l")) {
-						choosenSide = choiceTemp;
-						System.out.println("Wähle zwischen 1 und 3 Minions");
-						choice = StaticScanner.nextInt();
+				while (choiceValid == false) {
+					choice = 0;
+					System.out.println(
+							"Von welcher Seite willst du ziehen?(Eingabe 'l' für Links, Eingabe 'r' für Rechts");
+					choiceTemp = StaticScanner.nextString().toLowerCase();
+					while (true) {
 
-						if (choice == 1 || choice == 2 || choice == 3) {
-							if (choiceTemp.equals("r") && minionsRight >= choice
-									|| choiceTemp.equals("l") && minionsLeft >= choice) {
-								String side = "";
-								if (choiceTemp.equals("l")) {
-									side = "Links";
-								} else if (choiceTemp.equals("r")) {
-									side = "Rechts";
+						if (choiceTemp.equals("r") || choiceTemp.equals("l")) {
+							choosenSide = choiceTemp;
+							System.out.println("Wähle zwischen 1 und 3 Minions");
+							choice = StaticScanner.nextInt();
+
+							if (choice == 1 || choice == 2 || choice == 3) {
+								if (choiceTemp.equals("r") && minionsRight >= choice
+										|| choiceTemp.equals("l") && minionsLeft >= choice) {
+									String side = "";
+									if (choiceTemp.equals("l")) {
+										side = "Links";
+									} else if (choiceTemp.equals("r")) {
+										side = "Rechts";
+									}
+									System.out.println("Du ziehst " + choice + " Minions von " + side);
+									choiceValid = true;
+									break;
 								}
-								System.out.println("Du ziehst " + choice + " Minions von " + side);
-								choiceValid = true;
-								break;
+
+							} else {
+								System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
+								choiceValid = false;
 							}
 
 						} else {
-							System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
-							choiceValid = false;
+							System.out.println("Du musst l oder r eingeben um die Seite zu wählen");
 						}
-
-					} else {
-						System.out.println("Du musst l oder r eingeben um die Seite zu wählen");
 					}
 				}
+
+				/**
+				 * Ende des Zuges durch Abziehen der gezogenen Minions von der Reihenfolge
+				 */
+
+				if (choiceTemp.equals("l")) {
+					minionsLeft = minionsLeft - choice;
+
+				} else if (choiceTemp.equals("r")) {
+					minionsRight = minionsRight - choice;
+
+				}
+				order = "";
+				for (int i = 0; i < minionsLeft; i++) {
+					order += " M ";
+				}
+				order += " O ";
+				for (int i = 0; i < minionsRight; i++) {
+					order += " M ";
+				}
+				System.out.println("Verbleibende Minions:");
+				System.out.println(order);
+				
+				choiceValid = false;
 			}
 		}
-		/**
-		 * Ende des Zuges durch Abziehen der gezogenen Minions von der Reihenfolge
-		 */
-
-		if (choiceTemp.equals("l")) {
-			minionsLeft = minionsLeft - choice;
-			
-		} else if (choiceTemp.equals("r")) {
-			minionsRight = minionsRight - choice;
-
-		}
-		order = "";
-		for(int i = 0; i < minionsLeft; i++) {
-			order += " M ";
-		}
-		order += " O ";
-		for(int i = 0; i < minionsRight; i++) {
-			order += " M ";
-		}
-		System.out.println("Neue Reihenfolge:");
-		System.out.println(order);
 	}
 }
