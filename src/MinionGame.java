@@ -1,4 +1,3 @@
-
 public class MinionGame {
 	public static void main(String[] args) {
 
@@ -37,7 +36,7 @@ public class MinionGame {
 		System.out.println("Es stehen " + (minionsRight) + " rechts.");
 		System.out.println("Es stehen " + (minionsLeft) + " links.");
 
-		starterSelection = Math.random();
+		/* starterSelection = Math.random();
 		if (starterSelection >= 0.5)
 
 		{
@@ -50,11 +49,11 @@ public class MinionGame {
 		}
 
 		if (starter == 0)
-		{System.out.print("Computer beginnt");
+		{System.out.print("Computer wählt");
 		
 		} else {
-			choice = StaticScanner.nextInt();
-			
+			choice = StaticScanner.nextInt();		
 		}
+		*/
 	}
 }
