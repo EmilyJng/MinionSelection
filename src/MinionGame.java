@@ -11,6 +11,7 @@ public class MinionGame {
 		int choice = 0;
 		String choosenSide;
 		boolean choiceValid = false;
+		String choiceTemp = "";
 
 		while (controlNorbert == false) {
 			order = "";
@@ -35,7 +36,7 @@ public class MinionGame {
 		System.out.println("Norbert steht an " + positionNorbert + ". Stelle.");
 		System.out.println("Es stehen/steht " + (minionsRight) + " rechts.");
 		System.out.println("Es stehen/ steht " + (minionsLeft) + " links.");
-		
+
 		/**
 		 * Auswahl Spieler oder Computer
 		 */
@@ -64,21 +65,21 @@ public class MinionGame {
 			while (choiceValid == false) {
 				choice = 0;
 				System.out.println("Von welcher Seite willst du ziehen?(Eingabe 'l' für Links, Eingabe 'r' für Rechts");
-				String choiceTemp = StaticScanner.nextString().toLowerCase();
+				choiceTemp = StaticScanner.nextString().toLowerCase();
 				while (true) {
-					
+
 					if (choiceTemp.equals("r") || choiceTemp.equals("l")) {
 						choosenSide = choiceTemp;
 						System.out.println("Wähle zwischen 1 und 3 Minions");
 						choice = StaticScanner.nextInt();
-						
+
 						if (choice == 1 || choice == 2 || choice == 3) {
-							if(choiceTemp.equals("r") && minionsRight >= choice || choiceTemp.equals("l") && minionsLeft >= choice) {
+							if (choiceTemp.equals("r") && minionsRight >= choice
+									|| choiceTemp.equals("l") && minionsLeft >= choice) {
 								String side = "";
-								if(choiceTemp.equals("l")) {
+								if (choiceTemp.equals("l")) {
 									side = "Links";
-								}
-								else if(choiceTemp.equals("r")) {
+								} else if (choiceTemp.equals("r")) {
 									side = "Rechts";
 								}
 								System.out.println("Du ziehst " + choice + " Minions von " + side);
@@ -97,5 +98,26 @@ public class MinionGame {
 				}
 			}
 		}
+		/**
+		 * Ende des Zuges durch Abziehen der gezogenen Minions von der Reihenfolge
+		 */
+
+		if (choiceTemp.equals("l")) {
+			minionsLeft = minionsLeft - choice;
+			
+		} else if (choiceTemp.equals("r")) {
+			minionsRight = minionsRight - choice;
+
+		}
+		order = "";
+		for(int i = 0; i < minionsLeft; i++) {
+			order += " M ";
+		}
+		order += " O ";
+		for(int i = 0; i < minionsRight; i++) {
+			order += " M ";
+		}
+		System.out.println("Neue Reihenfolge:");
+		System.out.println(order);
 	}
 }
