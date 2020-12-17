@@ -114,9 +114,6 @@ public class MinionGame {
 	 */
 	public static String generateOrder(boolean controlNorbert) {
 		String order = "";
-		int positionNorbert = 0;
-		int minionsLeft = 0;
-		int minionsRight = 0;
 		
 		while (controlNorbert == false) {
 			order = "";
@@ -128,9 +125,7 @@ public class MinionGame {
 					} else {
 						order += " O ";
 						controlNorbert = true;
-						positionNorbert = i + 1;
-						minionsLeft = positionNorbert - 1;
-						minionsRight = 11 - positionNorbert;
+
 					}
 				} else {
 					order += " M ";
@@ -140,7 +135,17 @@ public class MinionGame {
 		return order;
 	}
 	
+	// Methode Position Norbert feststellen
+	
 	public static int getPositionNorbert(String order) {
-		
+		// wemm -1 return, dann Norbert nicht dabei.
+		int positionNorbert = -1;
+		for (int i=0; i<11; i++) {
+			if (order.charAt(i) == 'O') {
+					i= positionNorbert;
+			}
+			
+		}
+		return positionNorbert;
 	}
 }
