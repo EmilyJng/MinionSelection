@@ -3,21 +3,22 @@ public class MinionGame {
 
 		double starterSelection;
 
-		boolean controlNorbert = false;
-
 		int starter;
 		int choice = 0;
 		String choosenSide;
 		boolean choiceValid = false;
 		String choiceTemp = "";
+		String order = generateOrder();
+		int positionNorbert = getPositionNorbert(order);
+		int minionsLeft = getMinionsLeft(positionNorbert);
+		int minionsRight = getMinionsRight(positionNorbert);
 		
 		
-
-
-		System.out.println(order);
-		System.out.println("Norbert steht an " + positionNorbert + ". Stelle.");
-		System.out.println("Es stehen/steht " + (minionsRight) + " rechts.");
-		System.out.println("Es stehen/ steht " + (minionsLeft) + " links.");
+		// Ausgabe der durch Methoden gewonnenen Werte
+		System.out.println(generateOrder());
+		System.out.println("Norbert steht an " + getPositionNorbert(order) + ". Stelle.");
+		System.out.println("Es stehen/steht " + minionsRight + " rechts.");
+		System.out.println("Es stehen/ steht " + minionsLeft + " links.");
 
 		/**
 		 * Auswahl Spieler oder Computer
@@ -96,11 +97,11 @@ public class MinionGame {
 				}
 				order = "";
 				for (int i = 0; i < minionsLeft; i++) {
-					order += " M ";
+					order += "M";
 				}
-				order += " O ";
+				order += "O";
 				for (int i = 0; i < minionsRight; i++) {
-					order += " M ";
+					order += "M";
 				}
 				System.out.println("Verbleibende Minions:");
 				System.out.println(order);
@@ -112,8 +113,9 @@ public class MinionGame {
 	/**
 	 * Methode Reihenfolge generieren
 	 */
-	public static String generateOrder(boolean controlNorbert) {
+	public static String generateOrder() {
 		String order = "";
+		boolean controlNorbert = false;
 		
 		while (controlNorbert == false) {
 			order = "";
@@ -121,14 +123,14 @@ public class MinionGame {
 				if (controlNorbert == false) {
 					double probability = Math.random() * i;
 					if (probability < 0.85) {
-						order += " M ";
+						order += "M";
 					} else {
-						order += " O ";
+						order += "O";
 						controlNorbert = true;
 
 					}
 				} else {
-					order += " M ";
+					order += "M";
 				}
 			}
 		}
@@ -147,5 +149,18 @@ public class MinionGame {
 			
 		}
 		return positionNorbert;
+	}
+	// Methode Minions links von Norbert berechnen
+	
+	public static int getMinionsLeft(int positionNorbert) {
+		int minionsLeft = positionNorbert - 1;
+		return minionsLeft;
+	}
+	
+	// Methode Minions links von Norbert berechnen
+	
+	public static int getMinionsRight(int positionNorbert) {
+		int minionsRight = 11 - positionNorbert;
+		return minionsRight;
 	}
 }
