@@ -20,13 +20,14 @@ public class MinionGame {
 		System.out.println("Es stehen/steht " + minionsRight + " rechts.");
 		System.out.println("Es stehen/ steht " + minionsLeft + " links.");
 
-		if (starter == 1) {
-			movePlayer(order);
+		movePlayer(order);
+		/*if (starter == 1) {
+			
 		} else if (starter == 0) {
 			System.out.println("Pc ist dran");
 		} else {
 			System.out.println("Fehler");
-		}
+		}*/
 
 		System.out.println("Zug beendet.");
 	}
@@ -147,7 +148,7 @@ public class MinionGame {
 									side = "Rechts";
 								}
 								System.out.println("Du ziehst " + choice + " Minions von " + side);
-								drawMinions(order, choice, side);
+								drawMinions(order, choice, choiceTemp);
 								choiceValid = true;
 								break;
 							}
@@ -169,6 +170,8 @@ public class MinionGame {
 	public static void drawMinions(String order, int amount, String side) {
 		int minionsLeft = getMinionsLeft(getPositionNorbert(order));
 		int minionsRight = getMinionsRight(getPositionNorbert(order));
+		int positionNorbert = order.indexOf('O');
+		
 		if (side.equals("l")) {
 			minionsLeft = minionsLeft - amount;
 
@@ -176,14 +179,26 @@ public class MinionGame {
 			minionsRight = minionsRight - amount;
 
 		}
-		order = "";
-		for (int i = 0; i < minionsLeft; i++) {
-			order += "M";
+		
+		for(int i = 0; i < order.length(); i++) {
+			if(order.charAt(i) == 'M') {
+				// Wenn von Links gezogen wird, sollen vom Anfang aus die Minions gezogen werden
+				if(side.equals("l") && i < positionNorbert) {
+					for(int j = i; j < i + amount; j++) {
+						order = order.substring(0, j) + "-" + order.substring(j + 1);
+					}
+					break;
+				}
+				// Wenn von Rechts gezogen wird, sollen von außen aus die Minions gezogen werden
+				else if(side.equals("r") && i == order.length() - amount) {
+					for(int j = i; j < i + amount; j++) {
+						order = order.substring(0, j) + "-" + order.substring(j + 1);
+					}
+					break;
+				}
+			}
 		}
-		order += "O";
-		for (int i = 0; i < minionsRight; i++) {
-			order += "M";
-		}
+		
 		System.out.println("Verbleibende Minions:");
 		System.out.println(order);
 
