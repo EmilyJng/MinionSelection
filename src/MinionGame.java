@@ -20,14 +20,14 @@ public class MinionGame {
 		System.out.println("Es stehen/steht " + minionsRight + " rechts.");
 		System.out.println("Es stehen/ steht " + minionsLeft + " links.");
 
-		moveComputer(order);
-		movePlayer(order);
-		/*
-		 * if (starter == 1) {
-		 * 
-		 * } else if (starter == 0) { System.out.println("Pc ist dran"); } else {
-		 * System.out.println("Fehler"); }
-		 */
+		if (starter == 1) {
+			movePlayer(order);
+		} else if (starter == 0) {
+			System.out.println("Pc ist dran");
+			moveComputer(order);
+		} else {
+			System.out.println("Fehler");
+		}
 
 		System.out.println("Zug beendet.");
 	}
@@ -47,7 +47,7 @@ public class MinionGame {
 				if (controlNorbert == false) {
 					{
 						double probability = Math.random();
-						if (i == 9) {
+						if (i == 8) {
 							order += "O";
 							controlNorbert = true;
 						}
@@ -182,8 +182,16 @@ public class MinionGame {
 		String choiceSide = "";
 
 		if ((minionsLeft == 1 || minionsLeft == 2 || minionsLeft == 3) && minionsLeft < minionsRight) {
+			//hier noch 3,2 oder 1 auswählen
+			choice = 1;
+			choiceSide = "l";
 			System.out.println("3,2 oder 1 von Links");
+			
+			
 		} else if ((minionsRight == 1 || minionsRight == 2 || minionsRight == 3) && minionsLeft > minionsRight) {
+			//hier noch 3,2 oder 1 auswählen
+			choice = 1;
+			choiceSide = "r";
 			System.out.println("3,2 oder 1 von Rechts");
 		} else {
 			double probabilitySide = Math.random();
