@@ -14,7 +14,7 @@ public class MinionGame {
 		int starter = getBeginner();
 
 		// Ausgabe Aufbau der Reihe an Minions
-		
+
 		System.out.println(order);
 		System.out.println("Norbert steht an " + getPositionNorbert(order) + ". Stelle.");
 		System.out.println("Es stehen/steht " + minionsRight + " rechts.");
@@ -22,13 +22,12 @@ public class MinionGame {
 
 		moveComputer(order);
 		movePlayer(order);
-		/*if (starter == 1) {
-			
-		} else if (starter == 0) {
-			System.out.println("Pc ist dran");
-		} else {
-			System.out.println("Fehler");
-		}*/
+		/*
+		 * if (starter == 1) {
+		 * 
+		 * } else if (starter == 0) { System.out.println("Pc ist dran"); } else {
+		 * System.out.println("Fehler"); }
+		 */
 
 		System.out.println("Zug beendet.");
 	}
@@ -36,20 +35,28 @@ public class MinionGame {
 	/**
 	 * Methode Reihenfolge generieren
 	 */
+
 	public static String generateOrder() {
 		String order = "";
 		boolean controlNorbert = false;
 
 		while (controlNorbert == false) {
 			order = "";
-			for (int i = 0; i < 11; i++) {
+			order += "M";
+			for (int i = 0; i < 10; i++) {
 				if (controlNorbert == false) {
-					double probability = Math.random();
-					if (probability < 0.80) {
-						order += "M";
-					} else {
-						order += "O";
-						controlNorbert = true;
+					{
+						double probability = Math.random();
+						if (i == 9) {
+							order += "O";
+							controlNorbert = true;
+						}
+						if (probability < 0.85) {
+							order += "M";
+						} else {
+							order += "O";
+							controlNorbert = true;
+						}
 					}
 				} else {
 					order += "M";
@@ -167,62 +174,56 @@ public class MinionGame {
 			}
 		}
 	}
-	
+
 	public static void moveComputer(String order) {
 		int minionsLeft = getMinionsLeft(getPositionNorbert(order));
 		int minionsRight = getMinionsRight(getPositionNorbert(order));
 		int choice = 0;
 		String choiceSide = "";
-		
+
 		if ((minionsLeft == 1 || minionsLeft == 2 || minionsLeft == 3) && minionsLeft < minionsRight) {
 			System.out.println("3,2 oder 1 von Links");
-		}
-		else if ((minionsRight == 1 || minionsRight == 2 || minionsRight == 3) && minionsLeft > minionsRight) {
+		} else if ((minionsRight == 1 || minionsRight == 2 || minionsRight == 3) && minionsLeft > minionsRight) {
 			System.out.println("3,2 oder 1 von Rechts");
-		}
-		else { double probabilitySide = Math.random();
-				double probabilityAmount = Math.random();
+		} else {
+			double probabilitySide = Math.random();
+			double probabilityAmount = Math.random();
 			if (probabilitySide > 0.5) {
-				
+
 				// links
-				
-				if ( probabilityAmount <= 0.3) {
-					
+
+				if (probabilityAmount <= 0.3) {
+
 					choice = 1;
 					choiceSide = "l";
 					System.out.println("1 Minions von Links");
-				}
-				else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
-					
+				} else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
+
 					choice = 2;
 					choiceSide = "l";
 					System.out.println("2 Minions von Links");
-				}
-				else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
-					
+				} else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
+
 					choice = 3;
 					choiceSide = "l";
 					System.out.println("3 Minions von Links");
 				}
-			}
-			else {
-				
-				//rechts
-				
-				if ( probabilityAmount <= 0.3) {
+			} else {
+
+				// rechts
+
+				if (probabilityAmount <= 0.3) {
 					choice = 1;
 					choiceSide = "r";
-					
+
 					System.out.println("1 Minions von Rechts");
-				}
-				else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
-					
+				} else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
+
 					choice = 2;
 					choiceSide = "r";
 					System.out.println("2 Minions von Rechts");
-				}
-				else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
-					
+				} else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
+
 					choice = 3;
 					choiceSide = "r";
 					System.out.println("3 Minions von Rechts");
@@ -237,7 +238,7 @@ public class MinionGame {
 		int minionsLeft = getMinionsLeft(getPositionNorbert(order));
 		int minionsRight = getMinionsRight(getPositionNorbert(order));
 		int positionNorbert = order.indexOf('O');
-		
+
 		if (side.equals("l")) {
 			minionsLeft = minionsLeft - amount;
 
@@ -245,26 +246,26 @@ public class MinionGame {
 			minionsRight = minionsRight - amount;
 
 		}
-		
-		for(int i = 0; i < order.length(); i++) {
-			if(order.charAt(i) == 'M') {
+
+		for (int i = 0; i < order.length(); i++) {
+			if (order.charAt(i) == 'M') {
 				// Wenn von Links gezogen wird, sollen vom Anfang aus die Minions gezogen werden
-				if(side.equals("l") && i < positionNorbert) {
-					for(int j = i; j < i + amount; j++) {
+				if (side.equals("l") && i < positionNorbert) {
+					for (int j = i; j < i + amount; j++) {
 						order = order.substring(0, j) + "-" + order.substring(j + 1);
 					}
 					break;
 				}
 				// Wenn von Rechts gezogen wird, sollen von außen aus die Minions gezogen werden
-				else if(side.equals("r") && i == order.length() - amount) {
-					for(int j = i; j < i + amount; j++) {
+				else if (side.equals("r") && i == order.length() - amount) {
+					for (int j = i; j < i + amount; j++) {
 						order = order.substring(0, j) + "-" + order.substring(j + 1);
 					}
 					break;
 				}
 			}
 		}
-		
+
 		System.out.println("Verbleibende Minions:");
 		System.out.println(order);
 
