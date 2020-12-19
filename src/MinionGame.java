@@ -20,6 +20,7 @@ public class MinionGame {
 		System.out.println("Es stehen/steht " + minionsRight + " rechts.");
 		System.out.println("Es stehen/ steht " + minionsLeft + " links.");
 
+		moveComputer(order);
 		movePlayer(order);
 		/*if (starter == 1) {
 			
@@ -43,8 +44,8 @@ public class MinionGame {
 			order = "";
 			for (int i = 0; i < 11; i++) {
 				if (controlNorbert == false) {
-					double probability = Math.random() * i;
-					if (probability < 0.85) {
+					double probability = Math.random();
+					if (probability < 0.80) {
 						order += "M";
 					} else {
 						order += "O";
@@ -165,6 +166,71 @@ public class MinionGame {
 				}
 			}
 		}
+	}
+	
+	public static void moveComputer(String order) {
+		int minionsLeft = getMinionsLeft(getPositionNorbert(order));
+		int minionsRight = getMinionsRight(getPositionNorbert(order));
+		int choice = 0;
+		String choiceSide = "";
+		
+		if ((minionsLeft == 1 || minionsLeft == 2 || minionsLeft == 3) && minionsLeft < minionsRight) {
+			System.out.println("3,2 oder 1 von Links");
+		}
+		else if ((minionsRight == 1 || minionsRight == 2 || minionsRight == 3) && minionsLeft > minionsRight) {
+			System.out.println("3,2 oder 1 von Rechts");
+		}
+		else { double probabilitySide = Math.random();
+				double probabilityAmount = Math.random();
+			if (probabilitySide > 0.5) {
+				
+				// links
+				
+				if ( probabilityAmount <= 0.3) {
+					
+					choice = 1;
+					choiceSide = "l";
+					System.out.println("1 Minions von Links");
+				}
+				else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
+					
+					choice = 2;
+					choiceSide = "l";
+					System.out.println("2 Minions von Links");
+				}
+				else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
+					
+					choice = 3;
+					choiceSide = "l";
+					System.out.println("3 Minions von Links");
+				}
+			}
+			else {
+				
+				//rechts
+				
+				if ( probabilityAmount <= 0.3) {
+					choice = 1;
+					choiceSide = "r";
+					
+					System.out.println("1 Minions von Rechts");
+				}
+				else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
+					
+					choice = 2;
+					choiceSide = "r";
+					System.out.println("2 Minions von Rechts");
+				}
+				else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
+					
+					choice = 3;
+					choiceSide = "r";
+					System.out.println("3 Minions von Rechts");
+				}
+			}
+		}
+		System.out.println("Der Computer zieht " + choice + " Minions von " + choiceSide);
+		drawMinions(order, choice, choiceSide);
 	}
 
 	public static void drawMinions(String order, int amount, String side) {
