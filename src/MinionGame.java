@@ -7,35 +7,32 @@ public class MinionGame {
 		int minionsRight = getMinionsRight(positionNorbert);
 		int starter = getBeginner();
 		String order = getOrder(positionNorbert);
-		
-		// Ausgabe der Position von Norbert, 
+
+		// Ausgabe der Position von Norbert,
 		System.out.println("Norbert ist an Position " + (positionNorbert));
-		
+
 		// AUsgabe der Anzahl von Minions links
 		System.out.println("Es sind " + getMinionsLeft(positionNorbert) + " Minions Links");
-		
+
 		// Ausgabe der Anzahl von Minions rechts
 		System.out.println("Es sind " + getMinionsRight(positionNorbert) + " Minions Rechts");
-		
+
 		// Ausgabe der Reihenfolge der Minions mit "M" für Minion und "O" für Norbert
 		System.out.println(getOrder(positionNorbert));
-		
+
 		// Beginner feststellen durch Aufrufen der Methode
 		getBeginner();
 
-		
-		
-		
 		// Schleife für den Spielverlauf
-		
+
 		while ((minionsLeft > 0) && (minionsRight > 0)) {
 			if (starter == 1) {
-				//order = movePlayer(order);
+				order = movePlayer(order,positionNorbert);
 				System.out.println("Player Zug beendet.");
 				starter = 0;
 
 			} else if (starter == 0) {
-				//order = moveComputer(order);
+				// order = moveComputer(order);
 				System.out.println("Computer Zug beendet.");
 				starter = 1;
 			} else {
@@ -44,16 +41,13 @@ public class MinionGame {
 			}
 			System.out.println(order);
 		}
-		
-		
-	
+
 	}
 
-	
 	// Methoden
-	
+
 	// Methode für Position Norbert erhalten
-	
+
 	public static int getPositionNorbert() {
 		int positionNorbert = 1;
 
@@ -67,7 +61,7 @@ public class MinionGame {
 	}
 
 	// Methode für Anzahl Minions links erhalten
-	
+
 	public static int getMinionsLeft(int positionNorbert) {
 		int minionsLeft;
 
@@ -76,9 +70,9 @@ public class MinionGame {
 		return minionsLeft;
 
 	}
-	
+
 	// Methode für Minions rechts erhalten
-	
+
 	public static int getMinionsRight(int positionNorbert) {
 		int minionsRight;
 
@@ -88,8 +82,9 @@ public class MinionGame {
 
 	}
 
-	// Methode für Reihenfolge als String erstellen und oben aufrufen bzw anzeigen können
-	
+	// Methode für Reihenfolge als String erstellen und oben aufrufen bzw anzeigen
+	// können
+
 	public static String getOrder(int positionNorbert) {
 		String order = "";
 
@@ -107,9 +102,9 @@ public class MinionGame {
 		}
 		return order;
 	}
-	
+
 	// Methode um den Beginner festzulegen
-	
+
 	public static int getBeginner() {
 		double starterSelection;
 		int starter;
@@ -128,8 +123,8 @@ public class MinionGame {
 
 		return starter;
 	}
-	
-	public static String movePlayer(String order) {
+
+	public static String movePlayer(String order, int positionNorbert) {
 
 		boolean choiceValid = false;
 		int choice = 0;
@@ -137,6 +132,7 @@ public class MinionGame {
 		int minionsLeft = getMinionsLeft(getPositionNorbert());
 		int minionsRight = getMinionsRight(getPositionNorbert());
 		String newOrder = order;
+
 
 		while (choiceValid == false) {
 			choice = 0;
@@ -158,7 +154,7 @@ public class MinionGame {
 								side = "Rechts";
 							}
 							System.out.println("Du ziehst " + choice + " Minions von " + side);
-							newOrder = drawMinions(order, choice, choiceTemp);
+							newOrder = drawMinions(order, choice, choiceTemp, positionNorbert);
 							System.out.println("erfolgreicher Zug vom Spieler");
 							choiceValid = true;
 							break;
@@ -177,11 +173,13 @@ public class MinionGame {
 		}
 		return newOrder;
 	}
-	// Methode verrechnen der abgezogenen Minions mit der Reihenfolge 
-	public static String drawMinions(String order, int amount, String side) {
+
+	// Methode verrechnen der abgezogenen Minions mit der Reihenfolge
+	public static String drawMinions(String order, int amount, String side, int positionNorbert) {
 		int minionsLeft = getMinionsLeft(getPositionNorbert());
 		int minionsRight = getMinionsRight(getPositionNorbert());
-		int positionNorbert = order.indexOf('O');
+	
+		order = "";
 
 		if (side.equals("l")) {
 			minionsLeft = minionsLeft - amount;
@@ -191,23 +189,18 @@ public class MinionGame {
 
 		}
 
-		for (int i = 0; i < order.length(); i++) {
-			if (order.charAt(i) == 'M') {
-				// Wenn von Links gezogen wird, sollen vom Anfang aus die Minions gezogen werden
-				if (side.equals("l") && i < positionNorbert) {
-					for (int j = i; j < i + amount; j++) {
-						order = order.substring(0, j) + "-" + order.substring(j + 1);
-					}
-					break;
-				}
-				// Wenn von Rechts gezogen wird, sollen von außen aus die Minions gezogen werden
-				else if (side.equals("r") && i == order.length() - amount) {
-					for (int j = i; j < i + amount; j++) {
-						order = order.substring(0, j) + "-" + order.substring(j + 1);
-					}
-					break;
-				}
+		for (int i = 1; i < 12; i++) {
+			if ((i >= (positionNorbert - minionsLeft) && (i < positionNorbert)) || ((i < (positionNorbert + minionsRight) && (i > positionNorbert)))) {
+				order += " M ";
+
+			} else if (i < (positionNorbert - minionsLeft) || (i > (positionNorbert + minionsRight))) {
+				order += " - ";
+
+			} else if ( i == positionNorbert){
+				order += " O ";
+
 			}
+
 		}
 
 		System.out.println("Verbleibende Minions:");
