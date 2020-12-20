@@ -12,6 +12,8 @@ public class MinionGame {
 		int minionsLeft = getMinionsLeft(positionNorbert);
 		int minionsRight = getMinionsRight(positionNorbert);
 		int starter = getBeginner();
+	//	int computerMinionsTotal = getComputerMinionsTotal(choice, computerMinionsTotal);
+	//	int playerMinionsTotal = getPlayerMinionsTotal(choice, playerMinionsTotal);
 
 		// Ausgabe Aufbau der Reihe an Minions
 
@@ -210,7 +212,7 @@ public class MinionGame {
 					choice = 2;
 					choiceSide = "l";
 					System.out.println("2 Minions von Links");
-				} else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
+				} else if (probabilityAmount > 0.6 && probabilityAmount < 1) {
 
 					choice = 3;
 					choiceSide = "l";
@@ -230,18 +232,42 @@ public class MinionGame {
 					choice = 2;
 					choiceSide = "r";
 					System.out.println("2 Minions von Rechts");
-				} else if (probabilityAmount > 0.6 && probabilityAmount <= 1) {
+				} else if (probabilityAmount > 0.6 && probabilityAmount < 1) {
 
 					choice = 3;
 					choiceSide = "r";
 					System.out.println("3 Minions von Rechts");
+					
 				}
 			}
+
 		}
+		
 		System.out.println("Der Computer zieht " + choice + " Minions von " + choiceSide);
 		drawMinions(order, choice, choiceSide);
+		
+		 
 	}
+	
+	
+	// eigene Minions vom Computer
+	
+	public static int getComputerMinionsTotal(int choice, int computerMinionsTotal) {
 
+		computerMinionsTotal = computerMinionsTotal + choice;
+		
+		return computerMinionsTotal;
+	}
+	
+	
+	// eigene Minions vom Spieler
+	
+	public static int getPlayerMinionsTotal(int choice, int playerMinionsTotal) {
+
+		playerMinionsTotal = playerMinionsTotal + choice;
+		
+		return playerMinionsTotal;
+	}
 	public static void drawMinions(String order, int amount, String side) {
 		int minionsLeft = getMinionsLeft(getPositionNorbert(order));
 		int minionsRight = getMinionsRight(getPositionNorbert(order));
