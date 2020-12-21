@@ -27,7 +27,7 @@ public class MinionGame {
 
 		while ((minionsLeft > 0) && (minionsRight > 0)) {
 			if (starter == 1) {
-				order = movePlayer(order,positionNorbert);
+				order = movePlayer(order, positionNorbert);
 				System.out.println("Player Zug beendet.");
 				starter = 0;
 
@@ -88,7 +88,7 @@ public class MinionGame {
 	public static String getOrder(int positionNorbert) {
 		String order = "";
 
-		for (int i = 1; i < 12; i++) {
+		for (int i = 0; i < 11; i++) {
 			if (i < positionNorbert) {
 				order += " M ";
 			} else if (i == positionNorbert) {
@@ -132,7 +132,7 @@ public class MinionGame {
 		int minionsLeft = getMinionsLeft(getPositionNorbert());
 		int minionsRight = getMinionsRight(getPositionNorbert());
 		String newOrder = order;
-
+		int playerMinionsTotal = 0;
 
 		while (choiceValid == false) {
 			choice = 0;
@@ -157,6 +157,8 @@ public class MinionGame {
 							newOrder = drawMinions(order, choice, choiceTemp, positionNorbert);
 							System.out.println("erfolgreicher Zug vom Spieler");
 							choiceValid = true;
+							System.out.println("Du ziehst " + choice + " Minions von " + side);
+							playerMinionsTotal = getMinionsTotal(choice, playerMinionsTotal);
 							break;
 						}
 
@@ -174,37 +176,120 @@ public class MinionGame {
 		return newOrder;
 	}
 
-	// Methode verrechnen der abgezogenen Minions mit der Reihenfolge
-	public static String drawMinions(String order, int amount, String side, int positionNorbert) {
+	public static String moveComputer(String order) {
 		int minionsLeft = getMinionsLeft(getPositionNorbert());
 		int minionsRight = getMinionsRight(getPositionNorbert());
-	
-		order = "";
+		int choice = 0;
+		String choiceSide = "";
 
-		if (side.equals("l")) {
-			minionsLeft = minionsLeft - amount;
+		if ((minionsLeft == 1 || minionsLeft == 2 || minionsLeft == 3) && minionsLeft < minionsRight) {
+			// hier noch 3,2 oder 1 auswählen
+			choice = 1;
+			choiceSide = "l";
+			System.out.println("3,2 oder 1 von Links");
 
-		} else if (side.equals("r")) {
-			minionsRight = minionsRight - amount;
+		} else if ((minionsRight == 1 || minionsRight == 2 || minionsRight == 3) && minionsLeft > minionsRight) {
+			// hier noch 3,2 oder 1 auswählen
+			choice = 1;
+			choiceSide = "r";
+			System.out.println("3,2 oder 1 von Rechts");
+		} else {
+			double probabilitySide = Math.random();
+			double probabilityAmount = Math.random();
+			if (probabilitySide > 0.5) {
 
-		}
+				// links
 
-		for (int i = 1; i < 12; i++) {
-			if ((i >= (positionNorbert - minionsLeft) && (i < positionNorbert)) || ((i < (positionNorbert + minionsRight) && (i > positionNorbert)))) {
-				order += " M ";
+				if (probabilityAmount <= 0.3) {
 
-			} else if (i < (positionNorbert - minionsLeft) || (i > (positionNorbert + minionsRight))) {
-				order += " - ";
+					choice = 1;
+					choiceSide = "l";
+					System.out.println("Ich nehme 1 Minion von Links");
+				} else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
 
-			} else if ( i == positionNorbert){
-				order += " O ";
+					choice = 2;
+					choiceSide = "l";
+					System.out.println("Ich nehme 2 Minions von Links");
+				} else if (probabilityAmount > 0.6 && probabilityAmount < 1) {
 
+					choice = 3;
+					choiceSide = "l";
+					System.out.println("Ich nehme 3 Minions von Links");
+				}
+			} else {
+
+				// rechts
+
+				if (probabilityAmount <= 0.3) {
+					choice = 1;
+					choiceSide = "r";
+
+					System.out.println("Ich nehme 1 Minion von Rechts");
+				} else if (probabilityAmount > 0.3 && probabilityAmount <= 0.6) {
+
+					choice = 2;
+					choiceSide = "r";
+					System.out.println("Ich nehme 2 Minions von Rechts");
+				} else if (probabilityAmount > 0.6 && probabilityAmount < 1) {
+
+					choice = 3;
+					choiceSide = "r";
+					System.out.println("Ich nehme 3 Minions von Rechts");
+
+				}
 			}
 
 		}
 
-		System.out.println("Verbleibende Minions:");
+		System.out.println("Der Computer zieht " + choice + " Minions von " + choiceSide);
+		return drawMinions(order, choice, choiceSide, positionNorbert);
+
+	}
+	// Methode verrechnen der abgezogenen Minions mit der Reihenfolge
+	public static String drawMinions(String order, int amount, String side, int positionNorbert) {
+		int minionsLeft = getMinionsLeft(getPositionNorbert());
+		int minionsRight = getMinionsRight(getPositionNorbert());
+		int minionsLeftTaken = 0;
+		int minionsRightTaken = 0;
+
+		order = "";
+
+		if (side.equals("l")) {
+			minionsLeft = minionsLeft - amount;
+			minionsLeftTaken = amount;
+
+		} else if (side.equals("r")) {
+			minionsRight = minionsRight - amount;
+			minionsRightTaken = minionsRightTaken + amount;
+
+		}
+
+		for (int i = 0; i < minionsLeftTaken; i++) {
+			order += " - ";
+		}
+		for (int j = 0; j < minionsLeft; j++) {
+			order += " M ";
+		}
+
+		order += " O ";
+
+		for (int l = 0; l < minionsRight; l++) {
+			order += " M ";
+		}
+		for (int m = 0; m < minionsRightTaken; m++) {
+			order += " - ";
+		}
+
 		return order;
+	}
+
+// eigene Minions mit eigenem Zug verrechnen
+
+	public static int getMinionsTotal(int choice, int minionsTotal) {
+
+		minionsTotal = minionsTotal + choice;
+
+		return minionsTotal;
 	}
 
 }
