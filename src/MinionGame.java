@@ -85,10 +85,15 @@ public class MinionGame {
 							}
 
 						} else {
-							if ((side == 'l') && (choice > minionsLeft)) {
+							
+							
+							// überdenken, wann norbert gezogen werden könnte und wie ich das aufbaue
+							// Norbert kann auch teil der 3 gezogenen Minons sein, dann nachfragen
+							//ÜBERARBEITEN!!!!
+							if ((side == 'l') && (choice > minionsLeft)|| ((side == 'r') && (choice > minionsRight))){
 
-								System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
-								choiceValid = false;
+							System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
+								choiceVali	d = false;
 							} else if ((side == 'r') && (choice > minionsRight)) {
 
 								System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
