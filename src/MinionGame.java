@@ -15,16 +15,15 @@ public class MinionGame {
 		printOrder(positionNorbert, minionsLeft, minionsRight, minionsLeftTaken, minionsRightTaken);
 
 		// Ausgabe der Position von Norbert,
-		System.out.println("Norbert ist an Position " + (positionNorbert));
+		System.out.println("Norbert steht an " + (positionNorbert) + ". Stelle.");
 
 		// AUsgabe der Anzahl von Minions links
-		System.out.println("Es stehen " + getMinionsLeft(positionNorbert) + " Minions Links");
+		System.out.println("Minions links: " + getMinionsLeft(positionNorbert));
 
 		// Ausgabe der Anzahl von Minions rechts
-		System.out.println("Es stehen " + getMinionsRight(positionNorbert) + " Minions Rechts");
+		System.out.println("Minions rechts: " + getMinionsRight(positionNorbert));
 
 		// Beginner feststellen durch Aufrufen der Methode
-
 
 		// Schleife für den Spielverlauf
 
@@ -41,86 +40,107 @@ public class MinionGame {
 					System.out.println(
 							"Von welcher Seite willst du ziehen?(Eingabe 'l' für Links, Eingabe 'r' für Rechts");
 					side = StaticScanner.nextChar();
-					while (choiceValid = true) {
 
-						if (side == 'r' || side == 'l') {
-							System.out.println("Wähle zwischen 1 und 3 Minions");
-							choice = StaticScanner.nextInt();
+					if ((side == 'r') && (minionsRight == 0) || (side == 'l') && (minionsLeft == 0)) {
+						System.out.println("Auf dieser Seite sind keine Minions mehr übrig!");
+						System.out.println("Willst du Norbert ziehen? Gib 'y' für Ja oder 'n' für Nein ein:");
+						takeNorbert = StaticScanner.nextChar();
+						if (takeNorbert == 'n') {
+							System.out.println("Du hast Norbert nicht gezogen.");
 
-							if (choice == 1 || choice == 2 || choice == 3) {
-								if (side == 'r' && minionsRight >= choice || side == 'l' && minionsLeft >= choice) {
+							choiceValid = false;
 
-									if (side == 'l') {
+						} else if (takeNorbert == 'y') {
+							System.out.println("Du hast Norbert gezogen.");
+							System.out.println("Der Computer gewinnt!");
+							break;
+						}
 
-										minionsLeft = minionsLeft - choice;
-										minionsLeftTaken = minionsLeftTaken + choice;
+					} else if (side == 'r' || side == 'l') {
+						System.out.println("Wähle zwischen 1 und 3 Minions");
+						choice = StaticScanner.nextInt();
 
-									} else if (side == 'r') {
+						if (choice == 1 || choice == 2 || choice == 3) {
+							if (side == 'r' && minionsRight >= choice || side == 'l' && minionsLeft >= choice) {
 
-										minionsRight = minionsRight - choice;
-										minionsRightTaken = minionsRightTaken + choice;
-									}
-									System.out.println("Du ziehst " + choice + " Minions von " + side);
+								if (side == 'l') {
 
-									System.out.println("erfolgreicher Zug vom Spieler");
-									choiceValid = true;
-									System.out.println("Du ziehst " + choice + " Minions von " + side);
-									minionsTotalPlayer = minionsTotalPlayer + choice;
-									System.out.println("Du hast " + minionsTotalPlayer + " Minions in Total");
+									minionsLeft = minionsLeft - choice;
+									minionsLeftTaken = minionsLeftTaken + choice;
 
-									break;
+								} else if (side == 'r') {
+
+									minionsRight = minionsRight - choice;
+									minionsRightTaken = minionsRightTaken + choice;
 								}
+								System.out.println("Du ziehst " + choice + " Minions von " + side);
 
-							} else {
-								if ((side == 'l') && (choice > minionsLeft)) {
+								System.out.println("erfolgreicher Zug vom Spieler");
+								choiceValid = true;
+								System.out.println("Du ziehst " + choice + " Minions von " + side);
+								minionsTotalPlayer = minionsTotalPlayer + choice;
+								System.out.println("Du hast " + minionsTotalPlayer + " Minions in Total");
 
-									System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
-									choiceValid = false;
-								} else if ((side == 'r') && (choice > minionsRight)) {
-
-									System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
-									choiceValid = false;
-								} else if ((minionsLeft < 1) || (minionsRight < 1)) {
-									System.out.println("Auf dieser Seite ist nur noch Norbert übrig");
-									System.out.println("Möchtest du wirklich Norbert ziehen? Du hast dann verloren!");
-									System.out.println("Gebe 'y' für Ja und 'n' für nein ein:");
-									takeNorbert = StaticScanner.nextChar();
-									if (takeNorbert == 'n') {
-										choiceValid = false;
-									}
-
-									else if (takeNorbert == 'y') {
-										choiceValid = true;
-									}
-								}
-
+								break;
 							}
 
 						} else {
-							System.out.println("Du musst l oder r eingeben um die Seite zu wählen");
-							choiceValid = false;
+							if ((side == 'l') && (choice > minionsLeft)) {
+
+								System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
+								choiceValid = false;
+							} else if ((side == 'r') && (choice > minionsRight)) {
+
+								System.out.println("Du musst zwischen 1 und 3 Minions wählen!");
+								choiceValid = false;
+							} else if ((minionsLeft == 0) || (minionsRight == 0)) {
+								System.out.println("Auf dieser Seite ist nur noch Norbert übrig");
+								System.out.println("Möchtest du wirklich Norbert ziehen? Du hast dann verloren!");
+								System.out.println("Gebe 'y' für Ja und 'n' für nein ein:");
+								takeNorbert = StaticScanner.nextChar();
+								if (takeNorbert == 'n') {
+									System.out.println("Du hast Norbert nicht gezogen.");
+									choiceValid = false;
+								}
+
+								else if (takeNorbert == 'y') {
+									System.out.println("Du hast Norbert gezogen.");
+									System.out.println("Der Computer gewinnt!");
+									break;
+								}
+							}
+
 						}
+
+					} else {
+						System.out.println("Du musst l oder r eingeben um die Seite zu wählen");
+						choiceValid = false;
 					}
 
 				}
-			
 
 				System.out.println("- Player Zug beendet. -");
 				System.out.println("Folgende Minions sind noch übrig:");
 				printOrder(positionNorbert, minionsLeft, minionsRight, minionsLeftTaken, minionsRightTaken);
 				starter = 0;
 
+				if ((minionsLeft == 0) && (minionsRight == 0)) {
+					System.out
+							.println("Nur noch Norbert ist übrig. Beim nächsten Zug muss der Computer Norbert ziehen!");
+					System.out.println("Der Spieler gewinnt!");
+					minionsTotalComputer = minionsTotalComputer + 1;
+					break;
+				}
+
 			} else if (starter == 0) {
 				int choice = 0;
 				char side = 0;
-				if ((minionsLeft == 1 || minionsLeft == 2 || minionsLeft == 3) && minionsLeft < minionsRight) {
+				if (minionsLeft == 1 || minionsLeft == 2 || minionsLeft == 3) {
 					// hier wird entsprechend die 3,2 oder 1 übrigen von links ausgewählt
 					choice = minionsLeft;
 					side = 'l';
 
-
-				} else if ((minionsRight == 1 || minionsRight == 2 || minionsRight == 3)
-						&& minionsLeft > minionsRight) {
+				} else if (minionsRight == 1 || minionsRight == 2 || minionsRight == 3) {
 					// hier wird entsprechend die 3,2 oder 1 übrigen von rechts ausgewählt
 					choice = minionsRight;
 					side = 'r';
@@ -211,12 +231,11 @@ public class MinionGame {
 
 						}
 
-						
 					}
 
 				}
 				System.out.println("Ich nehme " + choice + " Minion(s) von " + side);
-				
+
 				if (side == 'l') {
 					minionsLeft = minionsLeft - choice;
 					minionsLeftTaken = minionsLeftTaken + choice;
@@ -225,12 +244,21 @@ public class MinionGame {
 					minionsRightTaken = minionsRightTaken + choice;
 				}
 				System.out.println("Der Computer zieht " + choice + " Minion(s) von " + side);
+				minionsTotalComputer = minionsTotalComputer + choice;
+				System.out.println("Der Computer hat " + minionsTotalPlayer + " Minions in Total");
 
 				System.out.println("- Computer Zug beendet. -");
 				System.out.println("Folgende Minions sind noch übrig:");
 				printOrder(positionNorbert, minionsLeft, minionsRight, minionsLeftTaken, minionsRightTaken);
 				starter = 1;
-				minionsTotalComputer = minionsTotalComputer + choice;
+
+				if ((minionsLeft == 0) && (minionsRight == 0)) {
+					System.out
+							.println("Nur noch Norbert ist übrig. Beim nächsten Zug muss der Spieler Norbert ziehen!");
+					System.out.println("Der Computer gewinnt!");
+					minionsTotalPlayer = minionsTotalPlayer + 1;
+					break;
+				}
 
 			} else {
 				System.out.println("Fehler");
@@ -238,7 +266,8 @@ public class MinionGame {
 			}
 
 		}
-
+		System.out.println("Der Computer hat insgesamt " + minionsTotalComputer + " Minions in seinem Team.");
+		System.out.println("Der Spieler hat insgesamt " + minionsTotalPlayer + " Minions in seinem Team.");
 	}
 
 	// Methoden
