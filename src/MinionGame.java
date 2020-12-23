@@ -107,7 +107,9 @@ public class MinionGame {
 									char choice = StaticScanner.nextChar();
 									if (choice == 'j') {
 										gameOver = true;
+										sideInput = false;
 										hasNorbert = 'p';
+										break;
 
 									} else {
 										break;
