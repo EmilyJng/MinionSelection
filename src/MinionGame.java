@@ -6,18 +6,47 @@ public class MinionGame {
 		int minionsRight = getMinionsRight(positionNorbert);
 		int minionsLeftTaken = 0;
 		int minionsRightTaken = 0;
-		int starter = getBeginner();
+
 		int minionsTotalPlayer = 0;
 		int minionsTotalComputer = 0;
+		char hasNorbert = 'O';
 		boolean gameOver = false;
 		String choosenSide = "";
 
+		//Spiel Erklärung und Regeln
+        System.out.println("------------------- MISSION WITHOUT NORBERT ----------------------------------------------------" + "\n");
+        System.out.println("Norbert, einst der Star der Minion Agenten, wurde nach seinem anfänglich rum Arrogant.\n"
+
+                + "Seine letzten Missionen liefen durch seine Alleingänge alle miserabel.\n"
+        		+ "\n"
+                + "Sie, als Direktor der Minion Einheiten, haben die Aufgabe, Teams für die Einsätze zu erstellen.\n"
+                + "Das Management ist aber nach den letzten Misserfolgen nicht sehr erfreut und stellt in Frage,\n"
+                + "ob sie die nötigen Fähigkeiten haben ein Team zu erstellen.\n"
+        		+ "\n"
+                + "Beweisen Sie sich gegen den Computer, der Ihren Job ersetzten soll!!\n"
+                + "Erstellen Sie dazu ein besseres Agententeam, als es der Computer tut!\n"
+        		+ "\n"
+                + "Alle Agenten haben die gleichen Qualifikationen, abgesehn von Norbert, \n"
+                + "der dafür sorgen wird, dass die Mission scheitert.\n"
+        		+ "\n"
+                + "Spielregeln für die Teamauswahl:\n"
+        		+ "\n"
+                + "1. Es gibt 10 fähige Agenten. Und es gibt Norbert.\n"
+                + "2. Norbert mischt sich anfangs zufällig unter die anderen Agenten.\n"
+                + "3. Der Zufall entscheidet, ob Sie oder der Computer beginnen, Ihr Team zusammen zu stellen. \n"
+                + "4. Danach werden abwechselnd von rechts oder links außen Minions gezogen.\n"
+                + "5. Es muss mindestens 1 und maximal 3 Minions gezogen werden.\n"
+                + "6. Wenn nur noch Norbert zur Auswahl steht, muss dieser gezogen werden.\n"
+                + "7. Wer Norbert in seinem Team hat, hat verloren und bekommt den Job als Direktor nicht.\n"
+                + "");
+
+        System.out.println("-----------------------------GAME START-------------------------------------------------------\n");
+        
+		int starter = getBeginner();
 		// Ausgabe der Position von Norbert,
 		System.out.println("Folgende Minions stehen zur Auswahl:");
 		printOrder(positionNorbert, minionsLeft, minionsRight, minionsLeftTaken, minionsRightTaken);
 		
-		System.out.println ("");
-
 		// Ausgabe der Position von Norbert,
 		System.out.println("Norbert steht an " + (positionNorbert) + ". Stelle.");
 
@@ -25,10 +54,7 @@ public class MinionGame {
 		System.out.println("Minions links: " + getMinionsLeft(positionNorbert));
 
 		// Ausgabe der Anzahl von Minions rechts
-		System.out.println("Minions rechts: " + getMinionsRight(positionNorbert));
-		
-		//Leere Zeile für einen besseren Überblick
-		System.out.println ("");
+		System.out.println("Minions rechts: " + getMinionsRight(positionNorbert) + "\n");
 
 		// Beginner feststellen durch Aufrufen der Methode
 
@@ -67,6 +93,7 @@ public class MinionGame {
 									char choice = StaticScanner.nextChar();
 									if (choice == 'j') {
 										gameOver = true;
+										hasNorbert = 'p';
 
 									} else {
 										break;
@@ -89,22 +116,19 @@ public class MinionGame {
 				else {
 					choosenSide = "rechts";
 				}
-				System.out.println("Du ziehst " + amount + "Minions von " + choosenSide);
-				System.out.println("Aktuell hast du " + minionsTotalPlayer + " Minions in deinem Team");
-				System.out.println ("");
-				System.out.println ("- Spieler Zug beendet -");
-				System.out.println ("");
+				System.out.println("Du ziehst " + amount + " Minions von " + choosenSide + "\n");
+				System.out.println("Aktuell hast du " + minionsTotalPlayer + " Minions in deinem Team \n");
+				System.out.println ("- Spieler Zug beendet - \n");
+				System.out.println("________________________________________________________________________\n");
 				System.out.println("Folgende Minions sind noch übrig:");
 				printOrder(positionNorbert, minionsLeft, minionsRight, minionsLeftTaken, minionsRightTaken);
-				System.out.println ("");
 				
 				if ((minionsLeft == 0) && (minionsRight == 0)) {
 					System.out.println(
-							"Nur noch Norbert ist übrig. Der Computer muss bei seinem nächsten Zug Norbert ziehen.");
-					System.out.println ("");
+							"Nur noch Norbert ist übrig. Der Computer muss bei seinem nächsten Zug Norbert ziehen. \n");
+					hasNorbert = 'c';
 					minionsTotalComputer = minionsTotalComputer + 1;
-					System.out.println("Der Spieler gewinnt!");
-					System.out.println ("");
+					System.out.println("Der Spieler gewinnt! \n");
 					gameOver = true;
 				}
 
@@ -216,8 +240,7 @@ public class MinionGame {
 				else {
 					choosenSide = "rechts";
 				}
-				System.out.println("Ich nehme " + amount + " Minion(s) von " + choosenSide + "!");
-				System.out.println ("");
+				System.out.println("Ich nehme " + amount + " Minion(s) von " + choosenSide + "! \n");
 
 				if (side == 'l') {
 					minionsLeft = minionsLeft - amount;
@@ -226,24 +249,21 @@ public class MinionGame {
 					minionsRight = minionsRight - amount;
 					minionsRightTaken = minionsRightTaken + amount;
 				}
-				System.out.println("Der Computer zieht " + amount + " Minion(s) von " + choosenSide);
+				System.out.println("Der Computer zieht " + amount + " Minion(s) von " + choosenSide + "\n");
 				minionsTotalComputer = minionsTotalComputer + amount;
-				System.out.println("Der Computer hat aktuell " + minionsTotalComputer + " Minions in seinem Team");
-				System.out.println ("");
-				System.out.println("- Computer Zug beendet -");
-				System.out.println ("");
+				System.out.println("Der Computer hat aktuell " + minionsTotalComputer + " Minions in seinem Team \n");
+				System.out.println("- Computer Zug beendet - \n");
+				System.out.println("________________________________________________________________________\n");
 				System.out.println("Folgende Minions sind noch übrig:");
 				printOrder(positionNorbert, minionsLeft, minionsRight, minionsLeftTaken, minionsRightTaken);
-				System.out.println ("");
 				starter = 1;
 
 
 				if ((minionsLeft == 0) && (minionsRight == 0)) {
 					System.out
-							.println("Nur noch Norbert ist übrig. Beim nächsten Zug muss der Spieler Norbert ziehen!");
-					System.out.println ("");
-					System.out.println("Der Computer gewinnt!");
-					System.out.println ("");
+							.println("Nur noch Norbert ist übrig. Beim nächsten Zug muss der Spieler Norbert ziehen! \n");
+					System.out.println("Der Computer gewinnt! \n");
+					hasNorbert = 'p';
 					minionsTotalPlayer = minionsTotalPlayer + 1;
 					break;
 				}
@@ -252,11 +272,19 @@ public class MinionGame {
 
 			}
 
+		if(hasNorbert == 'c') {
+			System.out.println("Der Computer hat Norbert gezogen!");
 		}
-		if()
-		System.out.println("Der Computer hat insgesamt " + minionsTotalComputer + " Minions in seinem Team.");
-		System.out.println ("");
-		System.out.println("Der Spieler hat insgesamt " + minionsTotalPlayer + " Minions in seinem Team.");
+		else if(hasNorbert == 'p') {
+			System.out.println("Der Spieler hat Norbert gezogen! \n");
+		}}
+		System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n");
+
+		System.out.println("Der Computer hat insgesamt " + minionsTotalComputer + " Minions in seinem Team. \n");
+		System.out.println("Der Spieler hat insgesamt " + minionsTotalPlayer + " Minions in seinem Team. \n");
+
+		System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n");
+		
 	}
 
 	// Methoden
@@ -305,22 +333,20 @@ public class MinionGame {
 		String order = "";
 
 		for (int i = 0; i < minionsLeftTaken; i++) {
-			order += " - ";
+			order += "- ";
 		}
 		for (int i = 0; i < minionsLeft; i++) {
-			order += " M ";
+			order += "M ";
 		}
-		order += " O ";
+		order += "O ";
 		for (int i = 0; i < minionsRight; i++) {
-			order += " M ";
+			order += "M ";
 		}
 		for (int i = 0; i < minionsRightTaken; i++) {
-			order += " - ";
+			order += "- ";
 		}
 		
-		System.out.println ("");
-		System.out.println(order);
-
+		System.out.println("\n" + order + "\n");
 	}
 
 	// Methode um den Beginner festzulegen
