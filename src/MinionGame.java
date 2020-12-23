@@ -155,6 +155,7 @@ public class MinionGame {
 					// plus 1, da Norbert mit ins andere Team kommt
 					minionsTotalComputer = minionsTotalComputer + 1;
 					System.out.println("Der Spieler gewinnt! \n");
+					System.out.println("Du hast dich gegen den Computer bewiesen und behälst deinen Job! \n");
 					// true um aus der Schleife des Spielverlaufs zu gelangen
 					gameOver = true;
 				}
@@ -292,6 +293,7 @@ public class MinionGame {
 					System.out.println(
 							"Nur noch Norbert ist übrig. Beim nächsten Zug muss der Spieler Norbert ziehen! \n");
 					System.out.println("Der Computer gewinnt! \n");
+					System.out.println("Du verlierst leider deinen Job... \n");
 					// zuweisung von hasNorbert für den Spieler
 					hasNorbert = 'p';
 					minionsTotalPlayer = minionsTotalPlayer + 1;
